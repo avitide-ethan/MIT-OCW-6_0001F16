@@ -162,16 +162,30 @@ def update_hand(hand, word):
     hand: dictionary (string -> int)    
     returns: dictionary (string -> int)
     """
-    hand = {}
+    newhand = hand.copy()
+    value = 0
 
-    for letter in word:
-        value = hand.pop(letter)
-        if value >= 1:
-            hand
-
+    for letter in word.lower():
+        try:
+            value = newhand.pop(letter)
+        except KeyError:
+            pass
+        # print("letter: {}, value: {}, hand: {}".format(letter, value, hand))
+        try:
+            if value >= 2:
+                newhand[letter] = value - 1
+        except UnboundLocalError:
+            pass   # print(hand)
+    return newhand
         # pop it from the dict. update value. if value > 0, add back to dict.
-    hand = {}
 
+
+# hand = {'a': 1, 'q': 1, 'l': 2, 'm': 1, 'u': 1, 'i': 1}
+# word = "quail"
+# # hand = {'h': 3, 'e': 2, 'l': 2, 'o': 1}
+hand =  {'e': 1, 'v': 2, 'n': 1, 'i': 1, 'l': 2}
+# # word = "hello"
+print(update_hand(hand, "evil"))
 
 #
 # Problem #3: Test word validity
@@ -342,7 +356,8 @@ def play_game(word_list):
 # Build data structures used for entire session and play game
 # Do not remove the "if __name__ == '__main__':" line - this code is executed
 # when the program is run directly, instead of through an import statement
-#
-if __name__ == '__main__':
-    word_list = load_words()
-    play_game(word_list)
+# #
+# if __name__ == '__main__':
+#     word_list = load_words()
+#     play_game(word_list)
+
