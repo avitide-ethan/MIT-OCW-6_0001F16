@@ -16,7 +16,7 @@ CONSONANTS = 'bcdfghjklmnpqrstvwxyz'
 HAND_SIZE = 7
 
 SCRABBLE_LETTER_VALUES = {
-    'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8, 'k': 5, 'l': 1, 'm': 3, 'n': 1, 'o': 1, 'p': 3, 'q': 10, 'r': 1, 's': 1, 't': 1, 'u': 1, 'v': 4, 'w': 4, 'x': 8, 'y': 4, 'z': 10
+    '*': 0, 'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8, 'k': 5, 'l': 1, 'm': 3, 'n': 1, 'o': 1, 'p': 3, 'q': 10, 'r': 1, 's': 1, 't': 1, 'u': 1, 'v': 4, 'w': 4, 'x': 8, 'y': 4, 'z': 10
 }
 
 # -----------------------------------
@@ -57,8 +57,8 @@ def get_frequency_dict(sequence):
     
     # freqs: dictionary (element_type -> int)
     freq = {}
-    for x in sequence:
-        freq[x] = freq.get(x,0) + 1
+    for x in sequence:  # for each letter in the word
+        freq[x] = freq.get(x,0) + 1  # dict[key] = dict.get(key, 0) + 1  ### for each key, take value, if it doesn't exist it is zero. add one.
     return freq
 
 
@@ -133,29 +133,23 @@ def deal_hand(n):
     hand = {}
     num_vowels = int(math.ceil(n / 3))  # return smallest integer >= to n/3
 
-    for i in range(num_vowels):
+    hand['*'] = hand.get('*', 0) + 1
+
+    for i in range(1, num_vowels):  # the 0th element is the wildcard, '*'
         x = random.choice(VOWELS)
         hand[x] = hand.get(x, 0) + 1
     
     for i in range(num_vowels, n):    
         x = random.choice(CONSONANTS)
         hand[x] = hand.get(x, 0) + 1
-    
+
     return hand
 
 
 def update_hand(hand, word):
     """
-    Does NOT assume that hand contains every letter in word at least as
-    many times as the letter appears in word. Letters in word that don't
-    appear in hand should be ignored. Letters that appear in word more times
-    than in hand should never result in a negative count; instead, set the
-    count in the returned hand to 0 (or remove the letter from the
-    dictionary, depending on how your code is structured). 
-
     Updates the hand: uses up the letters in the given word
     and returns the new hand, without those letters in it.
-
     Has no side effects: does not modify hand.
 
     word: string
@@ -180,16 +174,6 @@ def update_hand(hand, word):
         # pop it from the dict. update value. if value > 0, add back to dict.
 
 
-# hand = {'a': 1, 'q': 1, 'l': 2, 'm': 1, 'u': 1, 'i': 1}
-# word = "quail"
-# # hand = {'h': 3, 'e': 2, 'l': 2, 'o': 1}
-hand =  {'e': 1, 'v': 2, 'n': 1, 'i': 1, 'l': 2}
-# # word = "hello"
-print(update_hand(hand, "evil"))
-
-#
-# Problem #3: Test word validity
-#
 def is_valid_word(word, hand, word_list):
     """
     Returns True if word is in the word_list and is entirely
@@ -202,11 +186,58 @@ def is_valid_word(word, hand, word_list):
     returns: boolean
     """
 
-    pass  # TO DO... Remove this line when you implement this function
+    # needs to handle wildcards
+    # list of words with wildcards replaced.
+    # if one of those words is in the word list, pass.
+    word_lowercase = word.lower()  # convert word to lowercase
+    wildcard_word_list = []  # list of potential words it could be, if the word has a wildcard value
+    if word_lowercase.find('*') >= 0:
+        for vowel in VOWELS:
+            wildcard_word_list.append(word_lowercase.replace('*', vowel))
+    else:
+        wildcard_word_list.append(word_lowercase)
+    #
+    # if len([e for e in wildcard_word_list if e in '\n'.join(word_list)]) >= 1:
+    #     print([e for e in wildcard_word_list if e in '\n'.join(word_list)])
+    #     print("your word is in the list")
+    #     pass
+    # else:
+    #     print("your word is NOT the list")
+    #     return False
+
+    # iterate through items in word list and check if they are in the word_list.
+
+    if len(list(set(wildcard_word_list) & set(word_list))) >= 1:
+        pass
+    else:
+        return False
+
+    # convert word into a dictionary
+    word_dict = get_frequency_dict(word_lowercase)
+    # look through all keys in word dictionary and see if value >= that key value in the hand
+    for letter in word_dict.keys():
+        # print(f"letter: {letter}, in word: {word_dict[letter]}, in hand: {hand.get(letter, 0)}")
+        if letter == '*':
+            pass
+        elif word_dict[letter] <= hand.get(letter, 0):
+            # print("you do have enough {}'s in your hand".format(letter))
+            pass
+        else:
+            # print("Not enough {}'s in your hand".format(letter))
+            return False
+    return True
+
+
+# word = "e*m"
+# hand = {'a': 1, 'r': 1, 'e': 1, 'j': 2, 'm': 1, '*': 1}
+#
+# word_list = load_words()
+# is_valid_word(word, hand, word_list)
 
 #
 # Problem #5: Playing a hand
 #
+
 def calculate_handlen(hand):
     """ 
     Returns the length (number of letters) in the current hand.
@@ -216,6 +247,7 @@ def calculate_handlen(hand):
     """
     
     pass  # TO DO... Remove this line when you implement this function
+
 
 def play_hand(hand, word_list):
 
