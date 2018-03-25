@@ -391,9 +391,26 @@ def play_game(word_list):
 
     word_list: list of lowercase strings
     """
-    
-    print("play_game not implemented.") # TO DO... Remove this line when you implement this function
-    
+
+    number_of_hands = input("Enter the total number of hands: ")
+    # track the option to substitute
+    # track the option to replay a hand
+    # track the total score after each hand
+
+    # while there are still more hands to go:
+        # deal the hand
+        # while they still have the option to substitute:
+            # ask if they want to substitute, and do it
+            # save this as the hand.
+        # play the hand
+        # save the score
+        # if they want to replay the hand
+            # replay the hand
+            # save the replay score
+            # if the replay score > saved score, use that score
+        # update total score
+
+
 
 
 #
