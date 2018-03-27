@@ -88,7 +88,7 @@ def get_word_score(word, n):
 
     for letter in word:
         letter_score += SCRABBLE_LETTER_VALUES.get(letter)
-        print(f"letter: {letter}, letter_score: {letter_score}")
+        # print(f"letter: {letter}, letter_score: {letter_score}")
 
     wordlen_score = 7 * wordlen - 3 * (n - wordlen)
     if wordlen_score <= 0:
@@ -392,26 +392,54 @@ def play_game(word_list):
     word_list: list of lowercase strings
     """
 
-    number_of_hands = input("Enter the total number of hands: ")
+    number_of_hands = int(input("Enter the total number of hands: "))
     # track the option to substitute
+    has_substituted = 0
     # track the option to replay a hand
+    has_replayed = 0
     # track the total score after each hand
-
+    total_score = 0
     # while there are still more hands to go:
-        # deal the hand
-        # while they still have the option to substitute:
+    while number_of_hands > 0:
+
+        # deal the hand and display it
+        current_hand = deal_hand(HAND_SIZE)
+        print("Current hand: {}".format(display_hand(current_hand)))
+        # if they still have the option to substitute:
+        if has_substituted == 0:
             # ask if they want to substitute, and do it
-            # save this as the hand.
-        # play the hand
-        # save the score
-        # if they want to replay the hand
-            # replay the hand
-            # save the replay score
-            # if the replay score > saved score, use that score
+            substitute = input("Would you like to substitute a letter? ")
+            if substitute.lower() == "yes":
+                letter = input("Which letter would you like to replace: ")
+                # save this as the hand.
+                current_hand = substitute_hand(current_hand, letter)
+                # eliminate option to substitute
+                has_substituted = 1
+
+        # play the hand, display the score
+        hand_score = play_hand(current_hand, word_list)
+        print("Total score for this hand: {}".format(hand_score))
+        print("-----------")
+        # if they still have the option to replay:
+        if has_replayed == 0:
+            replay = input("Would you like to replay the hand? ")
+            # if they want to replay the hand
+            if replay.lower() == "yes":
+                # replay the hand
+                replay_score = play_hand(current_hand, word_list)
+                # save the replay score
+                # if the replay score > saved score, use that score
+                if replay_score > hand_score:
+                    hand_score = replay_score
         # update total score
+        total_score += hand_score
+        number_of_hands -= 1
+
+    print("Total score for all hands: {}".format(total_score))
 
 
-
+word_list = load_words()
+play_game(word_list)
 
 #
 # Build data structures used for entire session and play game
