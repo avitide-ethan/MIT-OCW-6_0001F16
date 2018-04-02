@@ -3,6 +3,42 @@
 # Collaborators:
 # Time Spent: x:xx
 
+def get_permutations_v2(sequence):
+
+
+    def insert_letter_into(letter, permutations):
+        """
+        :param letter: A single-letter string
+        :param permutations: A list of strings
+        :return: A list of strings
+        """
+        results = []
+        for p in permutations:
+            results.append(letter + p)
+            results.append(letter + p)
+            print(f'insert {letter} into {permutations}')
+            # results.append(p + letter)
+        return results
+
+    def reduce(sequence):
+        """
+        Reduce the problem size
+        :param sequence: A string
+        :return:
+        """
+        if len(sequence) == 1:
+            return [sequence]
+        letter = sequence[0]
+        remainder_string = sequence[1:]
+        return insert_letter_into(letter, reduce(remainder_string))
+
+    first_letter = sequence[0]
+    remainder_string = sequence[1:]
+    remainder_permutations = reduce(remainder_string)
+
+    return insert_letter_into(first_letter, remainder_permutations)
+
+
 
 def get_permutations(sequence):
     """
@@ -71,21 +107,25 @@ def get_permutations(sequence):
 # print('Actual Output:', get_permutations(example_input))
 
 
-example_input = 'abc'
-print('Input:', example_input)
-print('Expected Output:', ['ab', 'ba'])
-print('Actual Output:', get_permutations(example_input))
+# example_input = 'abc'
+# print('Input:', example_input)
+# print('Expected Output:', ['ab', 'ba'])
+# print('Actual Output:', get_permutations(example_input))
+#
+# if __name__ == '__main__':
+#     #    #EXAMPLE
+#     #    example_input = 'abc'
+#     #    print('Input:', example_input)
+#     #    print('Expected Output:', ['abc', 'acb', 'bac', 'bca', 'cab', 'cba'])
+#     #    print('Actual Output:', get_permutations(example_input))
+#
+#     #    # Put three example test cases here (for your sanity, limit your inputs
+#     #    to be three characters or fewer as you will have n! permutations for a
+#     #    sequence of length n)
+#
+#     pass
 
 if __name__ == '__main__':
-    #    #EXAMPLE
-    #    example_input = 'abc'
-    #    print('Input:', example_input)
-    #    print('Expected Output:', ['abc', 'acb', 'bac', 'bca', 'cab', 'cba'])
-    #    print('Actual Output:', get_permutations(example_input))
-
-    #    # Put three example test cases here (for your sanity, limit your inputs
-    #    to be three characters or fewer as you will have n! permutations for a
-    #    sequence of length n)
-
-    pass
-
+    input_sequence = 'ABCD'
+    permutations = get_permutations_v2(input_sequence)
+    print(f'The result of {input_sequence} is {permutations}')
