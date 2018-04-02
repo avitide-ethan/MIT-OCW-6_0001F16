@@ -5,7 +5,8 @@
 
 import string
 
-### HELPER CODE ###
+# HELPER CODE
+
 
 def load_words(file_name):
     """
@@ -122,7 +123,8 @@ class Message(object):
         Returns: the message text (string) in which every character is shifted
              down the alphabet by the input shift
         """
-        pass #delete this line and replace with your code here
+        pass  # delete this line and replace with your code here
+
 
 class PlaintextMessage(Message):
     def __init__(self, text, shift):
