@@ -6,8 +6,9 @@
 import string
 
 ### HELPER CODE ###
+
 def load_words(file_name):
-    '''
+    """
     file_name (string): the name of the file containing 
     the list of words to load    
     
@@ -15,7 +16,7 @@ def load_words(file_name):
     
     Depending on the size of the word list, this function may
     take a while to finish.
-    '''
+    """
     print("Loading word list from file...")
     # inFile: file
     inFile = open(file_name, 'r')
@@ -26,8 +27,9 @@ def load_words(file_name):
     print("  ", len(wordlist), "words loaded.")
     return wordlist
 
+
 def is_word(word_list, word):
-    '''
+    """
     Determines if word is a valid word, ignoring
     capitalization and punctuation
 
@@ -41,10 +43,11 @@ def is_word(word_list, word):
     True
     >>> is_word(word_list, 'asdf') returns
     False
-    '''
+    """
     word = word.lower()
     word = word.strip(" !@#$%^&*()-_+={}[]|\:;'<>?,./\"")
     return word in word_list
+
 
 def get_story_string():
     """
@@ -56,14 +59,14 @@ def get_story_string():
     return story
 
 
-### END HELPER CODE ###
+# END HELPER CODE
 
 WORDLIST_FILENAME = 'words.txt'
 
 
 class Message(object):
     def __init__(self, text):
-        '''
+        """
         Initializes a Message object
                 
         text (string): the message's text
@@ -71,28 +74,28 @@ class Message(object):
         a Message object has two attributes:
             self.message_text (string, determined by input text)
             self.valid_words (list, determined using helper function load_words)
-        '''
-        pass #delete this line and replace with your code here
+        """
+        pass  # delete this line and replace with your code here
 
     def get_message_text(self):
-        '''
+        """
         Used to safely access self.message_text outside of the class
         
         Returns: self.message_text
-        '''
-        pass #delete this line and replace with your code here
+        """
+        pass  # delete this line and replace with your code here
 
     def get_valid_words(self):
-        '''
+        """
         Used to safely access a copy of self.valid_words outside of the class.
         This helps you avoid accidentally mutating class attributes.
         
         Returns: a COPY of self.valid_words
-        '''
-        pass #delete this line and replace with your code here
+        """
+        pass  # delete this line and replace with your code here
 
     def build_shift_dict(self, shift):
-        '''
+        """
         Creates a dictionary that can be used to apply a cipher to a letter.
         The dictionary maps every uppercase and lowercase letter to a
         character shifted down the alphabet by the input shift. The dictionary
@@ -104,11 +107,11 @@ class Message(object):
 
         Returns: a dictionary mapping a letter (string) to 
                  another letter (string). 
-        '''
-        pass #delete this line and replace with your code here
+        """
+        pass  # delete this line and replace with your code here
 
     def apply_shift(self, shift):
-        '''
+        """
         Applies the Caesar Cipher to self.message_text with the input shift.
         Creates a new string that is self.message_text shifted down the
         alphabet by some number of characters determined by the input shift        
@@ -118,12 +121,12 @@ class Message(object):
 
         Returns: the message text (string) in which every character is shifted
              down the alphabet by the input shift
-        '''
+        """
         pass #delete this line and replace with your code here
 
 class PlaintextMessage(Message):
     def __init__(self, text, shift):
-        '''
+        """
         Initializes a PlaintextMessage object        
         
         text (string): the message's text
@@ -136,35 +139,35 @@ class PlaintextMessage(Message):
             self.encryption_dict (dictionary, built using shift)
             self.message_text_encrypted (string, created using shift)
 
-        '''
-        pass #delete this line and replace with your code here
+        """
+        pass  # delete this line and replace with your code here
 
     def get_shift(self):
-        '''
+        """
         Used to safely access self.shift outside of the class
         
         Returns: self.shift
-        '''
-        pass #delete this line and replace with your code here
+        """
+        pass  # delete this line and replace with your code here
 
     def get_encryption_dict(self):
-        '''
+        """
         Used to safely access a copy self.encryption_dict outside of the class
         
         Returns: a COPY of self.encryption_dict
-        '''
-        pass #delete this line and replace with your code here
+        """
+        pass  # delete this line and replace with your code here
 
     def get_message_text_encrypted(self):
-        '''
+        """
         Used to safely access self.message_text_encrypted outside of the class
         
         Returns: self.message_text_encrypted
-        '''
-        pass #delete this line and replace with your code here
+        """
+        pass  # delete this line and replace with your code here
 
     def change_shift(self, shift):
-        '''
+        """
         Changes self.shift of the PlaintextMessage and updates other 
         attributes determined by shift.        
         
@@ -172,13 +175,13 @@ class PlaintextMessage(Message):
         0 <= shift < 26
 
         Returns: nothing
-        '''
-        pass #delete this line and replace with your code here
+        """
+        pass  # delete this line and replace with your code here
 
 
 class CiphertextMessage(Message):
     def __init__(self, text):
-        '''
+        """
         Initializes a CiphertextMessage object
                 
         text (string): the message's text
@@ -186,11 +189,11 @@ class CiphertextMessage(Message):
         a CiphertextMessage object has two attributes:
             self.message_text (string, determined by input text)
             self.valid_words (list, determined using helper function load_words)
-        '''
-        pass #delete this line and replace with your code here
+        """
+        pass  # delete this line and replace with your code here
 
     def decrypt_message(self):
-        '''
+        """
         Decrypt self.message_text by trying every possible shift value
         and find the "best" one. We will define "best" as the shift that
         creates the maximum number of real words when we use apply_shift(shift)
@@ -204,24 +207,23 @@ class CiphertextMessage(Message):
 
         Returns: a tuple of the best shift value used to decrypt the message
         and the decrypted message text using that shift value
-        '''
-        pass #delete this line and replace with your code here
+        """
+        pass  # delete this line and replace with your code here
+
 
 if __name__ == '__main__':
 
+    #  #Example test case (PlaintextMessage)
+    #  plaintext = PlaintextMessage('hello', 2)
+    #  print('Expected Output: jgnnq')
+    #  print('Actual Output:', plaintext.get_message_text_encrypted())
+    #  #Example test case (CiphertextMessage)
+    #  ciphertext = CiphertextMessage('jgnnq')
+    #  print('Expected Output:', (24, 'hello'))
+    #  print('Actual Output:', ciphertext.decrypt_message())
 
-#    #Example test case (PlaintextMessage)
-#    plaintext = PlaintextMessage('hello', 2)
-#    print('Expected Output: jgnnq')
-#    print('Actual Output:', plaintext.get_message_text_encrypted())
-#
-#    #Example test case (CiphertextMessage)
-#    ciphertext = CiphertextMessage('jgnnq')
-#    print('Expected Output:', (24, 'hello'))
-#    print('Actual Output:', ciphertext.decrypt_message())
+    # TODO: WRITE YOUR TEST CASES HERE
 
-    #TODO: WRITE YOUR TEST CASES HERE
+    # TODO: best shift value and unencrypted story
 
-    #TODO: best shift value and unencrypted story 
-    
-    pass #delete this line and replace with your code here
+    pass  # delete this line and replace with your code here

@@ -24,44 +24,56 @@ def get_permutations(sequence):
     a different order than what is listed here.
     """
 
+    if type(sequence) == str:
+        sequence = [sequence]
 
+    # returns first letter and the rest of the string
+    def slice_first_letter(item):
+        return item[0:1], item[1:len(item)]
 
-    # method that inserts first character into permutation of remaining characters
-    def permutations_into_an_item(letter, item):
+    # method that inserts first character into item at all locations
+    def insert_letter(letter, item):
+        permutations = []
+        for char_num in range(0, len(item)+1):
+            append_string = item[:char_num] + letter + item[char_num:]
+            print("Now working on char_num {}".format(char_num))
+            print(append_string)
+            permutations.append(append_string)
+        print(permutations)
+        return permutations
 
+    def slice_and_insert(item):
+        letter, item = slice_first_letter(item)
+        return insert_letter(letter, item)
 
-
-    # base case
-    sequence = [sequence]
     if len(sequence[0]) == 1:
-        return sequence
-    # recursive case
-    # A
-    # AB, BA
-    # CAB, ACB, ABC... CBA, BCA, BAC
+        return sequence[0]
     else:
-        for letter in se:n= sequence[0]
-        sequence_for_permutations = sequence[1:len(sequence)]
-        print("Sequence for permutations: {}, Letter: {}".format(sequence_for_permutations, letter))
-        permutation_list = []
-        for item in range(0, len(sequence_for_permutations)):
-            permutation_list.append(sequence_for_permutations[:item] + letter + sequence_for_permutations[item:])
-            # iterate over sequence_for_permutations, inserting item into each location
-        return get_permutations(permutation_list)
+        new_sequence = []
+        for element in sequence:
+            # print(slice_first_letter(element))
+            new_sequence += slice_and_insert(element)
+        return get_permutations(new_sequence)
+
+    # recursive case
+    # ABC
+    # okay, greater than 1 letter
+    # permute A into BC
+    # BC is greater than 1 letter
+    # permute B into C --> [BC, CB]
+    # [ABC, BAC, CBA.... ACB CAB CBA]
 
 
-        # for x in range(len(sequence)):
-        #     pass
-        # pop the first letter
-        # get permutations of what's left
-        # return sequence
-    # permutation abcd = a into permutation bcd = b into permutation cd = c into d
 
+# example_input = 'abc'
+# print('Input:', example_input)
+# print('Expected Output:', ['abc', 'acb', 'bac', 'bca', 'cab', 'cba'])
+# print('Actual Output:', get_permutations(example_input))
 
 
 example_input = 'abc'
 print('Input:', example_input)
-print('Expected Output:', ['abc', 'acb', 'bac', 'bca', 'cab', 'cba'])
+print('Expected Output:', ['ab', 'ba'])
 print('Actual Output:', get_permutations(example_input))
 
 if __name__ == '__main__':
