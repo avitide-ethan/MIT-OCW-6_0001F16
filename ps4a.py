@@ -3,7 +3,8 @@
 # Collaborators:
 # Time Spent: x:xx
 
-def get_permutations_v2(sequence):
+
+def get_permutations_v2_wenwei(sequence):
 
 
     def insert_letter_into(letter, permutations):
@@ -37,6 +38,41 @@ def get_permutations_v2(sequence):
     remainder_permutations = reduce(remainder_string)
 
     return insert_letter_into(first_letter, remainder_permutations)
+
+
+def get_permutations_v3_ethan(sequence):
+
+    # first create top level functions
+
+    def create_permutation_list(letter, input_strings):
+        """
+        :param letter: a string that is one character
+        :param input_strings: a list of strings
+        :return: a list of strings
+        """
+
+        permutations = []
+        for string in input_strings:
+            # print(f"Insert letter into {string}")
+            for charnum in range(0, len(string)+1):
+                permutations.append(string[:charnum] + letter + string[charnum:])
+        return permutations
+
+    def reduce_problem_size(input_string):
+        """
+        :param input_string: a string
+        :return: list of permutations of reduced problem
+        """
+        if len(input_string) == 1:
+            return [input_string]
+        reduced_letter = input_string[0]
+        reduced_string = input_string[1:]
+        return create_permutation_list(reduced_letter, reduce_problem_size(reduced_string))
+
+    first_letter = sequence[0]
+    first_permutations = sequence[1:]
+    reduced_permutations = reduce_problem_size(first_permutations)
+    return create_permutation_list(first_letter, reduced_permutations)
 
 
 
@@ -100,7 +136,6 @@ def get_permutations(sequence):
     # [ABC, BAC, CBA.... ACB CAB CBA]
 
 
-
 # example_input = 'abc'
 # print('Input:', example_input)
 # print('Expected Output:', ['abc', 'acb', 'bac', 'bca', 'cab', 'cba'])
@@ -126,6 +161,6 @@ def get_permutations(sequence):
 #     pass
 
 if __name__ == '__main__':
-    input_sequence = 'ABCD'
-    permutations = get_permutations_v2(input_sequence)
+    input_sequence = 'andi l'
+    permutations = get_permutations_v3_ethan(input_sequence)
     print(f'The result of {input_sequence} is {permutations}')
