@@ -54,7 +54,7 @@ def get_story_string():
     """
     Returns: a story in encrypted text.
     """
-    f = open("story.txt", "r")
+    f = open("ps4_story.txt", "r")
     story = str(f.read())
     f.close()
     return story
@@ -233,33 +233,61 @@ class CiphertextMessage(Message):
         Returns: a tuple of the best shift value used to decrypt the message
         and the decrypted message text using that shift value
         """
-        pass  # delete this line and replace with your code here
+        best_num_valid_words = 0
+        best_shift_value = 0
+        for i in range(0, 26):
+            num_valid_words = 0
+            potential_message = self.apply_shift(i)
+            message_word_list = potential_message.split(' ')
+            for word in message_word_list:
+                word = word.replace(",", "")
+                word = word.replace("!", "")
+                word = word.replace(".", "")
+                if word.lower() in self.get_valid_words():
+                    num_valid_words += 1
+            print(f"Shift: {i}, Valid Words: {num_valid_words}, Message list: {message_word_list}")
+            if num_valid_words > best_num_valid_words:
+                best_num_valid_words = num_valid_words
+                best_shift_value = i
+            print(num_valid_words)
+        return best_shift_value, self.apply_shift(best_shift_value)
 
 
 if __name__ == '__main__':
 
-    #  #Example test case (PlaintextMessage)
-    #  plaintext = PlaintextMessage('hello', 2)
-    #  print('Expected Output: jgnnq')
-    #  print('Actual Output:', plaintext.get_message_text_encrypted())
-    #  #Example test case (CiphertextMessage)
-    #  ciphertext = CiphertextMessage('jgnnq')
-    #  print('Expected Output:', (24, 'hello'))
-    #  print('Actual Output:', ciphertext.decrypt_message())
+    # test cases
 
-    # TODO: WRITE YOUR TEST CASES HERE
+    # print("Test case 1")
+    # plaintext = PlaintextMessage('getting better at coding', 2)
+    # print('Expected Output: igvvkpi dgvvgt cv eqfkpi')
+    # print('Actual Output:', plaintext.get_message_text_encrypted())
+    # print("Test case 2")
+    # ciphertext = CiphertextMessage('jgnnq')
+    # print('Expected Output:', (24, 'hello'))
+    # print('Actual Output:', ciphertext.decrypt_message())
+    # print("Test case 3")
+    # ciphertext = CiphertextMessage('igvvkpi dgvvgt cv eqfkpi')
+    # print('Expected Output:', (24, 'getting better at coding'))
+    # print('Actual Output:', ciphertext.decrypt_message())
+    # print("Test case 4")
+    # plaintext = PlaintextMessage('abc', 10)
+    # print('Expected Output: klm')
+    # print('Actual Output:', plaintext.get_message_text_encrypted())
+    # print("Test case 5")
+    # plaintext = PlaintextMessage('Hello, World!', 4)
+    # print('Expected Output: Lipps, Asvph!')
+    # print('Actual Output:', plaintext.get_message_text_encrypted())
+    # print("Test case 6")
+    ciphertext = CiphertextMessage('Lipps, Asvph!')
+    print('Expected Output:', (21, 'Hello, World!'))
+    print('Actual Output:', ciphertext.decrypt_message())
 
-    # TODO: best shift value and unencrypted story
 
-    # message1 = Message("test message abc")
-    # message1.build_shift_dict(2)
-    # print(message1.apply_shift(2))
-    plain_message = PlaintextMessage("test plaintext message abc", 0)
-    print(plain_message.get_message_text_encrypted())
-    plain_message.change_shift(1)
-    print(plain_message.get_message_text_encrypted())
-    plain_message.change_shift(2)
-    print(plain_message.get_message_text_encrypted())
-    plain_message.change_shift(3)
-    print(plain_message.get_message_text_encrypted())
+    # unencrypted story
+
+    ciphertext = CiphertextMessage(get_story_string())
+    print(ciphertext.decrypt_message())
+
+    ### 12, 'Jack Florey is a mythical character created on the spur of a moment to help cover an insufficiently planned hack. He has been registered for classes at MIT twice before, but has reportedly never passed aclass. It has been the tradition of the residents of East Campus to become Jack Florey for a few nights each year to educate incoming students in the ways, means, and ethics of hacking.'
+
 

@@ -161,6 +161,6 @@ def get_permutations(sequence):
 #     pass
 
 if __name__ == '__main__':
-    input_sequence = 'andi l'
+    input_sequence = 'pickle'
     permutations = get_permutations_v3_ethan(input_sequence)
     print(f'The result of {input_sequence} is {permutations}')
